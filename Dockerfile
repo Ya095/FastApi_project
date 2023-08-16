@@ -8,15 +8,12 @@ RUN mkdir /fastapi_app
 
 WORKDIR /fastapi_app
 
-# копирование и установка зависемостей ("." - текущая папка, т.е. fastapi_app), что бы docker кэшировал их
 COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
-# копируем все папки и файлы проекта внутрь образа
 COPY . /fastapi_app
 
-# дать доступ к bash скриптам в папке docker
 RUN chmod a+x docker/*.sh
 
 #WORKDIR /src

@@ -1,9 +1,9 @@
+from datetime import datetime
 import time
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi_cache.decorator import cache
 from sqlalchemy import select, insert
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from src.database import get_async_session
 from src.operations.models import operation
 from src.operations.schemas import OperationCreate
@@ -44,9 +44,15 @@ async def get_specific_operations(operation_type: str, session: AsyncSession = D
 
 @router.post("")
 async def add_specific_operations(new_operation: OperationCreate, session: AsyncSession = Depends(get_async_session)):
-    stmt = insert(operation).values(**new_operation.dict())
-    await session.execute(stmt)
-    await session.commit()
-    return {"status": "success"}
-
+    try:
+        stmt = insert(operation).values(**new_operation.dict())
+        await session.execute(stmt)
+        await session.commit()
+        return {"status": "success"}
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail={
+            "status": "error: wrong data",
+            "date": f"{datetime.today().replace(microsecond=0)}",
+            "detail": str(e)
+        })
 
