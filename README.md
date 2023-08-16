@@ -2,7 +2,7 @@
 Запустить докер команды
 <ol>
     <li><code>docker-compose build</code></li>
-    <li><code>docker compose up</code></li>
+    <li><code>docker-compose up</code></li>
 </ol>
 
 ---
