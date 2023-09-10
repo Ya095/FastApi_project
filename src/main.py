@@ -51,7 +51,7 @@ app.add_middleware(
 )
 
 
-# после этого можем пользоваться декоратором cache для кэширования ответов.
+# для использования декоратора "cache"
 @app.on_event("startup")
 async def startup():
     redis = aioredis.from_url(f"redis://{REDIS_HOST}:{REDIS_PORT}", encoding="utf8", decode_response=True)

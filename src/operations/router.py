@@ -34,7 +34,6 @@ async def get_specific_operations(operation_type: str, session: AsyncSession = D
             "details": None
         }
     except Exception:
-        # Передать ошибку, что бы видно было детали
         raise HTTPException(status_code=500, detail={
             "status": "error",
             "data": None,

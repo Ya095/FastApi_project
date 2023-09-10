@@ -24,7 +24,7 @@ services:
     env_file:
       - .env-non-dev
     container_name: fastapi_app
-    command: gunicorn src.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000
+    command: ["/fastapi_app/docker_scripts/app.sh"]
     ports:
       - 9999:8000
     depends_on:
@@ -37,7 +37,7 @@ services:
     env_file:
       - .env-non-dev
     container_name: celery_app
-    command: celery -A src.tasks.tasks:cel worker --loglevel=INFO
+    command: ["/fastapi_app/docker_scripts/celery_flower.sh", "celery"]
     depends_on:
       - redis
 
@@ -47,7 +47,7 @@ services:
     env_file:
       - .env-non-dev
     container_name: flower_app
-    command: celery -A src.tasks.tasks:cel flower
+    command: ["/fastapi_app/docker_scripts/celery_flower.sh", "flower"]
     depends_on:
       - redis
       - celery
